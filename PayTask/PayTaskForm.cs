@@ -15,6 +15,16 @@ namespace PayTask
 {
     public partial class PayTaskForm : Form
     {
+        //The form needs more testing to make sure that the enabled or readonly property is set
+        //so that people cannot add high scores by hand
+
+        //Any database access could be added later by adding a class library and calling it from
+        //this form
+
+        //I used a windows form because I felt that it was the easient way to develop a front end
+
+        //Some of the private methods could be modified slightly and put in a class libray to be called
+        //but I have limited the time spent on this project
         private int CurrentValue { get; set; }
         private int CurrentScore { get; set; }
         private List<HighScoreViewModel> HighScores;
@@ -60,7 +70,7 @@ namespace PayTask
             btnGenerateNumber.Enabled = true;
         }
 
-        //Could be moved to separate class to keep display layer trim
+        //Could be moved to separate class to keep display layer less cluttered
         private bool CorrectAnswer(int currentVal, int newVal)
         {
             bool retVal = false;
@@ -102,7 +112,7 @@ namespace PayTask
             return retVal;
         }
 
-        //Could be moved to separate class to keep display layer trim
+        //Could be moved to separate class to keep display layer less cluttered
         private bool HasEqualHighScore(List<HighScoreViewModel> highScores, int scoreValue)
         {
             var retVal = false;
@@ -203,13 +213,17 @@ namespace PayTask
 
         private void btnLoadResults_Click(object sender, EventArgs e)
         {
+            //File IO could be moved to File Service and called here
             var file = new FileService.FileIO();
 
+            //Could display message if file does not exist
+            //The form could have a file selector but I was trying to keep things simple
             if (File.Exists(txtFileName.Text))
             {
                 txtHighScores.Text = string.Empty;
                 var split = File.ReadLines(txtFileName.Text);
 
+                //The data has been store as text lines with a separator of " - "
                 if (split.Count() > 0)
                 {
                     HighScores.Clear();
